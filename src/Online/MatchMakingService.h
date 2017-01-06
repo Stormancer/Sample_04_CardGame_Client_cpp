@@ -34,10 +34,10 @@ namespace Stormancer
 	struct Player
 	{
 	public:
-		
+
 		std::string playerId;
 		std::string pseudo;
-		
+
 
 		MSGPACK_DEFINE(playerId, pseudo);
 	};
@@ -61,6 +61,14 @@ namespace Stormancer
 		Stormancer::int32 membersCountTotal;
 	};
 
+	struct MatchmakingRequest
+	{
+	public:
+		std::string filter;
+
+		MSGPACK_DEFINE(filter);
+	};
+
 	// Msgpack doesn't support using C++11 enum class so we use int32 instead in this temporary internal functions
 	namespace Internal
 	{
@@ -71,7 +79,7 @@ namespace Stormancer
 			std::vector<Player> team1;
 			std::vector<Player> team2;
 			std::vector<std::string> optionalParameters;
-			
+
 
 			MSGPACK_DEFINE(gameId, team1, team2, optionalParameters);
 		};
@@ -104,6 +112,7 @@ namespace Stormancer
 		MatchState matchState() const;
 
 		pplx::task<void> findMatch(std::string provider);
+		pplx::task<void> findMatch(std::string provider, std::string filter);
 
 		void resolve(bool acceptMatch);
 
@@ -119,5 +128,7 @@ namespace Stormancer
 		std::function<void(ReadyVerificationRequest)> _onMatchReadyUpdate;
 		std::function<void(MatchmakingResponse)> _onMatchFound;
 		MatchState _matchState = MatchState::Unknown;
+		pplx::task<void> findMatch(std::function<void(bytestream*)> writer);
+
 	};
 };

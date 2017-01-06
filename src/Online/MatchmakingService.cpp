@@ -61,7 +61,7 @@ namespace Stormancer
 				mmres2.optionalParameters = mmres.optionalParameters;
 				mmres2.team1 = mmres.team1;
 				mmres2.team1 = mmres.team2;
-			
+
 
 				_onMatchFound(mmres2);
 			}
@@ -109,7 +109,7 @@ namespace Stormancer
 	}
 
 	MatchmakingService::~MatchmakingService()
-	{		
+	{
 		if (_hasSubscription)
 		{
 			_matchmakingSubscription.unsubscribe();
@@ -139,14 +139,31 @@ namespace Stormancer
 
 	pplx::task<void> MatchmakingService::findMatch(std::string provider)
 	{
+		return findMatch([provider](Stormancer::bytestream* stream) {
+			msgpack::pack(stream, provider);
+		});
+
+	}
+
+	pplx::task<void> MatchmakingService::findMatch(std::string provider, std::string filter)
+	{
+		return findMatch([provider, filter](Stormancer::bytestream* stream) {
+			msgpack::pack(stream, provider);
+
+			auto request = MatchmakingRequest();
+			request.filter = filter;
+			msgpack::pack(stream, request);
+		});
+	}
+
+	pplx::task<void> MatchmakingService::findMatch(std::function<void(bytestream*)> writer)
+	{
 		pplx::task_completion_event<void> tce;
 
 		_isMatching = true;
 
 
-		rxcpp::observable<Packetisp_ptr> observable = _rpcService->rpc("match.find", [provider](Stormancer::bytestream* stream) {
-			msgpack::pack(stream, provider);
-		}, PacketPriority::MEDIUM_PRIORITY);
+		rxcpp::observable<Packetisp_ptr> observable = _rpcService->rpc("match.find", writer, PacketPriority::MEDIUM_PRIORITY);
 
 		auto onNext = [this, tce](Stormancer::Packetisp_ptr packet) {
 			_isMatching = false;
@@ -176,7 +193,7 @@ namespace Stormancer
 					throw std::runtime_error("Unknown error during mathmaking.");
 				}
 			}
-			catch(std::exception& ex)
+			catch (std::exception& ex)
 			{
 				tce.set_exception(ex);
 			}

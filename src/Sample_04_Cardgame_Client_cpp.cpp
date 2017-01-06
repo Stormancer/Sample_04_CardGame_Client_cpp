@@ -58,7 +58,14 @@ int main(int argc, char *argv[])
 
 	});
 
-	matchmaking->findMatch("matchmaking-sample");
+	if (argc < 3)
+	{
+		matchmaking->findMatch("matchmaking-sample");
+	}
+	else
+	{
+		matchmaking->findMatch("matchmaking-sample", argv[2]);
+	}
 
 	std::cout << "waiting for game...";
 	Stormancer::MatchmakingResponse mmResponse = pplx::create_task(tce).get();
@@ -80,7 +87,7 @@ int main(int argc, char *argv[])
 		std::cout << "game state updated : " << gameState << std::endl;
 		return newHash; //Returns the new hash to the server for validation
 	});
-	transactionBroker->onReplayTLog([&gameState,&running](std::vector<Stormancer::TransactionLogItem> transactions)
+	transactionBroker->onReplayTLog([&gameState, &running](std::vector<Stormancer::TransactionLogItem> transactions)
 	{
 		std::cout << "Replay existing transaction log...";
 		for (auto t : transactions)
@@ -88,7 +95,7 @@ int main(int argc, char *argv[])
 			auto newHash = ApplyTransaction(t.transactionCommand, gameState);
 			if (t.hashAvailable && t.resultHash != newHash)
 			{
-				std::cout << "Desynchronization while playing Transaction log. Expected "<<t.resultHash << " obtained "<< newHash << std::endl;
+				std::cout << "Desynchronization while playing Transaction log. Expected " << t.resultHash << " obtained " << newHash << std::endl;
 				std::string v;
 				std::cin >> v;
 				running = false;
@@ -106,7 +113,7 @@ int main(int argc, char *argv[])
 	gameSession->connect().get();//Connect to the game session
 
 
-	
+
 
 
 	gameSession->ready();//Inform the server we are ready to play
@@ -125,7 +132,7 @@ int main(int argc, char *argv[])
 			auto t = transactionBroker->submitTransaction(auth->userId(), "add", json);
 			t.get();
 		}
-		catch(std::exception& ex)
+		catch (std::exception& ex)
 		{
 			std::cout << ex.what();
 		}
