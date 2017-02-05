@@ -72,6 +72,9 @@
     <ClInclude Include="..\..\src\Online\TurnByTurnPlugin.h">
       <Filter>Online</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Online\FriendListService.h">
+      <Filter>Online</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Logger.cpp">

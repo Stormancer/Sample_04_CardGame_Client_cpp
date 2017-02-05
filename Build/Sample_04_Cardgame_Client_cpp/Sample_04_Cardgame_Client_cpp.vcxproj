@@ -153,6 +153,7 @@
     <ClInclude Include="..\..\src\Online\AuthenticationPlugin.h" />
     <ClInclude Include="..\..\src\Online\AuthenticationService.h" />
     <ClInclude Include="..\..\src\Online\BugReportService.h" />
+    <ClInclude Include="..\..\src\Online\FriendListService.h" />
     <ClInclude Include="..\..\src\Online\GameSession.h" />
     <ClInclude Include="..\..\src\Online\GameVersionPlugin.h" />
     <ClInclude Include="..\..\src\Online\GameVersionService.h" />
@@ -192,10 +193,12 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-     </ImportGroup>
+    <Import Project="..\packages\StormancerClient.Native.140.2.0.6-pre\build\native\StormancerClient.Native.140.targets" Condition="Exists('..\packages\StormancerClient.Native.140.2.0.6-pre\build\native\StormancerClient.Native.140.targets')" />
+  </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    </Target>
+    <Error Condition="!Exists('..\packages\StormancerClient.Native.140.2.0.6-pre\build\native\StormancerClient.Native.140.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\StormancerClient.Native.140.2.0.6-pre\build\native\StormancerClient.Native.140.targets'))" />
+  </Target>
 </Project>
