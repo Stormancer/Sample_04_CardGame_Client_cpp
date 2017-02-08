@@ -116,6 +116,9 @@
     <ClCompile Include="..\..\src\Online\TurnByTurnPlugin.cpp">
       <Filter>Online</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Online\FriendListService.cpp">
+      <Filter>Online</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

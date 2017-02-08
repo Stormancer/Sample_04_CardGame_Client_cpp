@@ -7,6 +7,7 @@
 #include "Online/MatchmakingPlugin.h"
 #include "Online/TurnByTurnPlugin.h"
 #include "Online/GameSession.h"
+#include "Online/FriendListService.h"
 
 int ApplyTransaction(Stormancer::UpdateDto t, int& gameState)
 {
@@ -22,6 +23,7 @@ int ApplyTransaction(Stormancer::UpdateDto t, int& gameState)
 }
 
 
+
 int main(int argc, char *argv[])
 {
 	std::string login = "test";
@@ -34,6 +36,7 @@ int main(int argc, char *argv[])
 	config->addPlugin(new Stormancer::AuthenticationPlugin()); //Adds Authentication
 	config->addPlugin(new Stormancer::MatchmakingPlugin()); //Adds matchmaking & gamesession APIs
 	config->addPlugin(new Stormancer::TurnByTurnPlugin());
+	config->addPlugin(new Stormancer::FriendListPlugin<Stormancer::EmptyFriendDetails>());
 
 	auto client = Stormancer::Client::createClient(config);
 

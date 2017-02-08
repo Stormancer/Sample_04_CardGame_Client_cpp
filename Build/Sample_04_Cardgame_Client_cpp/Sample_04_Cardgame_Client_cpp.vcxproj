@@ -173,6 +173,7 @@
     <ClCompile Include="..\..\src\Online\AuthenticationPlugin.cpp" />
     <ClCompile Include="..\..\src\Online\AuthenticationService.cpp" />
     <ClCompile Include="..\..\src\Online\BugReportService.cpp" />
+    <ClCompile Include="..\..\src\Online\FriendListService.cpp" />
     <ClCompile Include="..\..\src\Online\GameSession.cpp" />
     <ClCompile Include="..\..\src\Online\GameVersionPlugin.cpp" />
     <ClCompile Include="..\..\src\Online\GameVersionService.cpp" />

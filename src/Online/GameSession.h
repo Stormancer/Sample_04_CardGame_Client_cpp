@@ -46,7 +46,7 @@ namespace Stormancer
 		MSGPACK_DEFINE(WinnerId, WinnerGain, LoserId, LoserGain);
 	};
 
-	enum PlayerStatus
+	enum class PlayerStatus
 	{
 		NotConnected = 0,
 		Connected = 1,
