@@ -78,6 +78,9 @@ namespace Stormancer
 		//Impersonate an user using the impersonation plugin. The plugin should be disabled in production environments.
 		virtual pplx::task<ScenePtr> impersonate(std::string provider, std::string claimPath, std::string uid, std::string impersonationSecret) override;
 
+		virtual pplx::task<std::vector<QueryByPseudoResult>> queryByPseudo(std::string pseudo, int size) override;
+		
+
 		virtual pplx::task<void> requestPasswordChange(std::string email) override;
 		virtual pplx::task<void> changePassword(std::string email, std::string code, std::string newPassword) override;
 

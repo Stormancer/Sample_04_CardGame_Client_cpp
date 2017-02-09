@@ -12,7 +12,12 @@ namespace Stormancer
 		Authenticating = 4,
 
 	};
-	
+	struct QueryByPseudoResult
+	{
+		std::string userId;
+		std::string pseudo;
+		MSGPACK_DEFINE(userId,pseudo)
+	};
 	class IAuthenticationService
 	{
 	public:
@@ -37,12 +42,8 @@ namespace Stormancer
 
 		virtual pplx::task<void> requestPasswordChange(std::string email) = 0;
 		virtual pplx::task<void> changePassword(std::string email, std::string code, std::string newPassword) = 0;
-		/// <summary>
-		/// Gets a scene token from the server
-		/// </summary>
-		/// <param name="sceneId">Id of the scene to access.</param>
-		/// <returns>Scene object to configure then connect to.</returns>
-		//virtual pplx::task<Result<Scene*>*> getPrivateScene(const char* sceneId) = 0;
+		
+		virtual pplx::task<std::vector<QueryByPseudoResult>> queryByPseudo(std::string pseudo, int size) = 0;
 
 		virtual pplx::task<void> logout() = 0;
 

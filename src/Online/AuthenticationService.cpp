@@ -246,4 +246,11 @@ namespace Stormancer
 			{"claimValue",uid} };
 		return login(authContext);
 	}
+	pplx::task<std::vector<QueryByPseudoResult>> AuthenticationService::queryByPseudo(std::string pseudo, int size)
+	{
+		return this->_authenticationScene.then([=](Stormancer::ScenePtr scene) {
+			auto s = scene.lock()
+		
+		});
+	}
 };
